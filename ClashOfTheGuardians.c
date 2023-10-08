@@ -8,8 +8,8 @@
 typedef struct cartas{
 	
 	int CardCode;
-	char *name;
-	char *type;
+	char name[70];
+	char type[50];
 	int HP;
 	int DMG;
 	int DEF;
@@ -26,9 +26,7 @@ typedef struct jugadores{
 }Player;
 
 	//Menú de inicio
-int GameMenu(int cartas){
-	
-	int opcion;
+void GameMenu(int cartas){
 	
 		printf("-----------------------\n");
 		printf("|CLASH OF THE GUARDIANS|\n");
@@ -36,42 +34,31 @@ int GameMenu(int cartas){
 		printf("\n");
 				
 		printf("Cartas activas: %d", cartas);
+		printf("\n");
 
 		printf("	>1< Agregar una carta a la lista\n");
 		printf("	>2< Iniciar partida\n");
 		printf("	>3< Ver el historial\n");
 		printf("	>4< Salir\n");
 		
-		printf("Ingrese su opcion: ");		scanf("%d", &opcion);	fflush(stdin);
-		
-	return opcion;
 }
 
-int NewCard(int code){
+void NewCard(int code){
 	
 	FILE *file;
 	file = fopen("CARDS.txt", "ab");
 	
-	if(file==NULL){
-		printf("Error con el archivo");
-		return 1;
-	}
+
 	Guardians Mazo;
 	
-	Mazo.name = malloc(60);
-	Mazo.type = malloc(40);
-	
 	Mazo.CardCode = code+1;
-	printf("Ingrese el nombre de la carta: ");	fgets(Mazo.name, 60, stdin);	fflush(stdin);	printf("\n");
-	printf("Ingrese el tipo de guardian: ");	fgets(Mazo.type, 40, stdin); 	fflush(stdin); 	printf("\n");
+	printf("Ingrese el nombre de la carta: ");	scanf("%s",Mazo.name);			fflush(stdin);	printf("\n");
+	printf("Ingrese el tipo de guardian: ");	scanf("%s",Mazo.type); 			fflush(stdin); 	printf("\n");
 	printf("Ingrese el HP: "); 					scanf("%d", &Mazo.HP);			fflush(stdin);	printf("\n");
 	printf("Ingrese el DMG: "); 				scanf("%d", &Mazo.DMG); 		fflush(stdin);	printf("\n");
 	printf("Ingrese la DEF: "); 				scanf("%d", &Mazo.DEF); 		fflush(stdin); 	printf("\n");
 	
 	fwrite(&Mazo, sizeof(Guardians), 1, file);
-	
-	free(Mazo.name);
-    free(Mazo.type);
     
 	fclose(file);
 }
@@ -80,7 +67,6 @@ int NewCard(int code){
 int DeckBuild(){
 	
 	int cardload = 0;
-	int read = 0;
 	//Lectura del archivo con las cartas
 	FILE *file;	
 	file = fopen("CARDS.txt", "r");
@@ -93,43 +79,74 @@ int DeckBuild(){
 	Guardians Mazo[100];
 	//Carga correcta de las cartas	
 	
-	do{
-		
- 	read =	fscanf(file,"%d ,%99[^,] ,%99[^,] ,%d ,%d ,%d\n",
+	while(fscanf(file,"%d ,%99[^,], %99[^,], %d ,%d ,%d\n",
 						&Mazo[cardload].CardCode,
 						Mazo[cardload].name,
 						Mazo[cardload].type,
 						&Mazo[cardload].HP,
 						&Mazo[cardload].DMG,
-						&Mazo[cardload].DEF);
+						&Mazo[cardload].DEF)==6){
+							cardload++;
+						}
 						
-	if(read == 6) cardload++;
-							
-		
-	}while(!feof(file));
 	
 	fclose(file);
 	return cardload;
 }
 
+
+void PrintCards(){
+
+	//Iniciar variables para el mazo
+	Guardians Mazo[100];
+	int cardload = 0;
+	//Lectura del archivo con las cartas
+	FILE *file;	
+	file = fopen("CARDS.txt", "r");
+		
+	//Carga correcta de las cartas	
+	while(fscanf(file," %d ,%99[^,] , %99[^,] , %d ,%d ,%d \n",
+						&Mazo[cardload].CardCode,
+						Mazo[cardload].name,
+						Mazo[cardload].type,
+						&Mazo[cardload].HP,
+						&Mazo[cardload].DMG,
+						&Mazo[cardload].DEF)==6){
+							cardload++;
+						}
+						
+	fclose(file);
+	
+	for(int i = 0 ; i < cardload ; i++){
+		
+		printf("--------------------\n");
+		printf("No: %d\n", Mazo[i].CardCode);
+		printf("Nombre: %s\n", Mazo[i].name);
+		printf("Tipo: %s\n", Mazo[i].type);
+		printf("HP: %d\n", Mazo[i].HP);
+		printf("DMG: %d\n", Mazo[i].DMG);
+		printf("DEF: %d\n", Mazo[i].DEF);
+		
+	}
+	
+}
 int main(){
-	
-	
-	DeckBuild();
-	printf("peo");
-	
-	int read = 0, Cartasactivas;
+		
+	int Cartasactivas = DeckBuild();
 	int winner = 0;
 	int opcion;
 	
+	PrintCards();
 	
 	while(winner != 1 && winner != 2){ //Hasta ver que jugador gana
 	
 	//Presentación del juego
-		DeckBuild();
+	
+	
 		GameMenu(Cartasactivas);
-		
-			opcion = GameMenu(Cartasactivas);
+					
+		printf("Ingrese su opcion: "); fflush(stdout);
+        scanf("%d", &opcion);		   fflush(stdin);	
 		
 		switch(opcion){
 			
