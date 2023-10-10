@@ -39,24 +39,38 @@ void GameMenu(int cartas){
 		printf("	>1< Agregar una carta a la lista\n");
 		printf("	>2< Iniciar partida\n");
 		printf("	>3< Ver el historial\n");
-		printf("	>4< Salir\n");
+		printf("	>4< Para ver las cartas activas\n");
+		printf("	>5< Salir\n");
 		
 }
 
-void NewCard(int code){
+void NewCard(){
+	
+	int cardload;
+	Guardians Mazo[100];
 	
 	FILE *file;
+	file = fopen("CARDS.txt", "r");
+	
+		while(fscanf(file,"%d ,%99[^,], %99[^,], %d ,%d ,%d\n",
+						&Mazo[cardload].CardCode,
+						Mazo[cardload].name,
+						Mazo[cardload].type,
+						&Mazo[cardload].HP,
+						&Mazo[cardload].DMG,
+						&Mazo[cardload].DEF)==6){
+							cardload++;
+						}
+	fclose(file);
+	
 	file = fopen("CARDS.txt", "ab");
-	
 
-	Guardians Mazo;
 	
-	Mazo.CardCode = code+1;
-	printf("Ingrese el nombre de la carta: ");	scanf("%s",Mazo.name);			fflush(stdin);	printf("\n");
-	printf("Ingrese el tipo de guardian: ");	scanf("%s",Mazo.type); 			fflush(stdin); 	printf("\n");
-	printf("Ingrese el HP: "); 					scanf("%d", &Mazo.HP);			fflush(stdin);	printf("\n");
-	printf("Ingrese el DMG: "); 				scanf("%d", &Mazo.DMG); 		fflush(stdin);	printf("\n");
-	printf("Ingrese la DEF: "); 				scanf("%d", &Mazo.DEF); 		fflush(stdin); 	printf("\n");
+	printf("Ingrese el nombre de la carta: ");	scanf("%s",	Mazo[cardload].name);			fflush(stdin);	printf("\n");
+	printf("Ingrese el tipo de guardian: ");	scanf("%s",	Mazo[cardload].type); 			fflush(stdin); 	printf("\n");
+	printf("Ingrese el HP: "); 					scanf("%d", &Mazo[cardload].HP);			fflush(stdin);	printf("\n");
+	printf("Ingrese el DMG: "); 				scanf("%d", &Mazo[cardload].DMG); 			fflush(stdin);	printf("\n");
+	printf("Ingrese la DEF: "); 				scanf("%d", &Mazo[cardload].DEF); 			fflush(stdin); 	printf("\n");
 	
 	fwrite(&Mazo, sizeof(Guardians), 1, file);
     
@@ -164,8 +178,14 @@ int main(){
 			//case 3:	//Ver el historialde ganadores
 				
 			//	break;
+			
+			case 4:	//Imprimir cartas activas
 				
-			case 2:	//Salir
+				PrintCards();
+				
+				break;
+				
+			case 5:	//Salir
 				printf("Vuelve pronto :D");
 				return 0;
 				break;
