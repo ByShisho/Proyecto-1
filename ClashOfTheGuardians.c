@@ -33,7 +33,7 @@ void GameMenu(int cartas){
 		printf("-----------------------\n");
 		printf("\n");
 				
-		printf("Cartas activas: %d", cartas);
+		printf("Cartas activas: %d", cartas-1); //Valor exacto de las cartas en juego
 		printf("\n");
 
 		printf("	>1< Agregar una carta a la lista\n");
@@ -41,43 +41,40 @@ void GameMenu(int cartas){
 		printf("	>3< Ver el historial\n");
 		printf("	>4< Para ver las cartas activas\n");
 		printf("	>5< Salir\n");
+		printf("\n");
 		
 }
 
-void NewCard(){
+//Funcion para crear nuevas cartas
+int NewCard(int cardnumber){
 	
-	int cardload;
-	Guardians Mazo[100];
+	//Iniciar variable
+	Guardians Mazo;
 	
-	FILE *file;
-	file = fopen("CARDS.txt", "r");
+	//Ingresar datos de la carta nueva
+	Mazo.CardCode = cardnumber;
+	printf("Ingrese el nombre de la carta: ");	scanf("%s",	Mazo.name);			fflush(stdin);
+	printf("Ingrese el tipo de guardian: ");	scanf("%s",	Mazo.type); 		fflush(stdin); 	
+	printf("Ingrese el HP: "); 					scanf("%d", &Mazo.HP);			fflush(stdin);
+	printf("Ingrese el DMG: "); 				scanf("%d", &Mazo.DMG); 		fflush(stdin);	
+	printf("Ingrese la DEF: "); 				scanf("%d", &Mazo.DEF); 		fflush(stdin); 	printf("\n");
 	
-		while(fscanf(file,"%d ,%99[^,], %99[^,], %d ,%d ,%d\n",
-						&Mazo[cardload].CardCode,
-						Mazo[cardload].name,
-						Mazo[cardload].type,
-						&Mazo[cardload].HP,
-						&Mazo[cardload].DMG,
-						&Mazo[cardload].DEF)==6){
-							cardload++;
-						}
-	fclose(file);
+	//Iniciar carga de la carta al archivo de texto
+	FILE *file = fopen("CARDS.txt", "a");
+	if(file == NULL){
+		printf("No se pudo cargar el archivo.\n");
+		return 1;
+	}
 	
-	file = fopen("CARDS.txt", "ab");
-
-	
-	printf("Ingrese el nombre de la carta: ");	scanf("%s",	Mazo[cardload].name);			fflush(stdin);	printf("\n");
-	printf("Ingrese el tipo de guardian: ");	scanf("%s",	Mazo[cardload].type); 			fflush(stdin); 	printf("\n");
-	printf("Ingrese el HP: "); 					scanf("%d", &Mazo[cardload].HP);			fflush(stdin);	printf("\n");
-	printf("Ingrese el DMG: "); 				scanf("%d", &Mazo[cardload].DMG); 			fflush(stdin);	printf("\n");
-	printf("Ingrese la DEF: "); 				scanf("%d", &Mazo[cardload].DEF); 			fflush(stdin); 	printf("\n");
-	
-	fwrite(&Mazo, sizeof(Guardians), 1, file);
+	fprintf(file, "%d,%s,%s,%d,%d,%d\n", Mazo.CardCode, Mazo.name,Mazo.type,Mazo.HP,Mazo.DMG, Mazo.DEF);
     
 	fclose(file);
+	printf("Carta creada exitosamente!!\n");
+    
+	system("cls");
 }
 
-//Regarcar el mazo para cada vez que se añadan cartas
+//Inicializar el mazo
 int DeckBuild(){
 	
 	int cardload = 0;
@@ -91,8 +88,8 @@ int DeckBuild(){
 	}
 	//Iniciar arreglo con el mazo
 	Guardians Mazo[100];
-	//Carga correcta de las cartas	
 	
+	//Carga correcta de las cartas	
 	while(fscanf(file,"%d ,%99[^,], %99[^,], %d ,%d ,%d\n",
 						&Mazo[cardload].CardCode,
 						Mazo[cardload].name,
@@ -131,6 +128,7 @@ void PrintCards(){
 						
 	fclose(file);
 	
+	//Recorrido de impresion
 	for(int i = 0 ; i < cardload ; i++){
 		
 		printf("--------------------\n");
@@ -149,9 +147,7 @@ int main(){
 	int Cartasactivas = DeckBuild();
 	int winner = 0;
 	int opcion;
-	
-	PrintCards();
-	
+		
 	while(winner != 1 && winner != 2){ //Hasta ver que jugador gana
 	
 	//Presentación del juego
@@ -161,7 +157,12 @@ int main(){
 					
 		printf("Ingrese su opcion: "); fflush(stdout);
         scanf("%d", &opcion);		   fflush(stdin);	
-		
+        
+		if(opcion != 1 || opcion != 2 || opcion != 3 || opcion != 4 || opcion != 5){
+			printf("Escoja una opcion valida >:c \n");
+			system("pause");
+			system("cls");
+		}
 		switch(opcion){
 			
 			case 1:	//Añadir una carta
@@ -171,18 +172,16 @@ int main(){
 				
 				break;
 			
-			//case 2:	// Iniciar el juego
+			case 2:	// Iniciar el juego
+				printf("En mantenimiento, vuelva pronto\n");
+				break;
 				
-			//	break;
-				
-			//case 3:	//Ver el historialde ganadores
-				
-			//	break;
+			case 3:	//Ver el historialde ganadores
+				printf("En mantenimiento, vuelva pronto\n");
+				break;
 			
 			case 4:	//Imprimir cartas activas
-				
 				PrintCards();
-				
 				break;
 				
 			case 5:	//Salir
@@ -192,7 +191,7 @@ int main(){
 			}
 		}
 		 
-		
+	
 	
 	return 0;
 }
