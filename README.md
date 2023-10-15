@@ -6,6 +6,9 @@ Debiamos crear un juego de cartas (a partir de un mazo de min 30 cartas) en el c
 y le permita al jugador elegir entre crear una carta nueva, iniciar el juego, ver el historial de partidas, ver las cartas existentes
 y finalmente le permita salir del programa
 
+## Enlace al video explicativo
+https://drive.google.com/drive/folders/1B3WbScET7HDbAibaImFJjPQIGVdouEn-?usp=sharing
+
 ### Detalles del juego
 El juego consiste en luchar contra otro jugador con los guardianes (cartas) con una mano compuesta por 15 cartas, existiendo 4 tipos de 
 guardianes:
