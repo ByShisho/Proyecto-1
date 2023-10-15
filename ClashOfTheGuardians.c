@@ -150,19 +150,11 @@ int main(){
 		
 	while(winner != 1 && winner != 2){ //Hasta ver que jugador gana
 	
-	//Presentación del juego
-	
-	
-		GameMenu(Cartasactivas);
-					
+
+		GameMenu(Cartasactivas);		//Presentación del juego					
 		printf("Ingrese su opcion: "); fflush(stdout);
-        scanf("%d", &opcion);		   fflush(stdin);	
-        
-		if(opcion != 1 || opcion != 2 || opcion != 3 || opcion != 4 || opcion != 5){
-			printf("Escoja una opcion valida >:c \n");
-			system("pause");
-			system("cls");
-		}
+        scanf("%d", &opcion);		  
+		
 		switch(opcion){
 			
 			case 1:	//Añadir una carta
@@ -189,9 +181,6 @@ int main(){
 				return 0;
 				break;
 			}
-		}
-		 
-	
-	
+		}	
 	return 0;
 }

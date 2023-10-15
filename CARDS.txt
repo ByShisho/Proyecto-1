@@ -32,4 +32,11 @@
 31,Mercader,Vikingo,20,5,10
 32,Arquero,Vikingo,20,15,5
 33,Lucoa,Mago,40,15,20
+34,UrsusTheBear,Bestia,35,10,15
+35,Yeti,Bestia,25,20,10
+36,HecatheLaOscura,Nigromante,20,5,10
+37,Verdugo,Nigromante,30,15,15
+38,Valdur,Vikingo,20,15,10
+39,NekrosElDespiadado,Nigromante,30,20,5
+40,Stolas,Nigromante,50,15,10
 
