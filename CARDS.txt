@@ -40,3 +40,4 @@
 39,NekrosElDespiadado,Nigromante,30,20,5
 40,Stolas,Nigromante,50,15,10
 
+41,Litch,Nigromante,40,10,20
